@@ -5,8 +5,6 @@ PROJECT(lua VERSION 5.4.4)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
-option(BUILD_SHARED_LIBS "Build using shared libraries" OFF)
-
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # https://www.lua.org/manual/5.4/readme.html "Building Lua on other systems"
@@ -49,7 +47,7 @@ set(LIBRARY_FILES
 
 list(TRANSFORM LIBRARY_FILES PREPEND "${SOURCE_DIR}/")
 
-add_library(lua ${LIBRARY_FILES})
+add_library(lua STATIC ${LIBRARY_FILES})
 target_include_directories(lua INTERFACE ${SOURCE_DIR})
 
 if(WIN32)
