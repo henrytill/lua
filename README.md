@@ -1,5 +1,5 @@
 # lua
 
-[![CMake](https://github.com/henrytill/lua/actions/workflows/cmake.yml/badge.svg)](https://github.com/henrytill/lua/actions/workflows/cmake.yml)
+[![builds.sr.ht status](https://builds.sr.ht/~henrytill/lua/commits/master.svg)](https://builds.sr.ht/~henrytill/lua/commits/master?)
 
 A CMake build of [Lua](https://www.lua.org/).
