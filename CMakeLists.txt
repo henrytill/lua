@@ -47,7 +47,7 @@ set(LIBRARY_FILES
 
 list(TRANSFORM LIBRARY_FILES PREPEND "${SOURCE_DIR}/")
 
-add_library(lua STATIC ${LIBRARY_FILES})
+add_library(lua ${LIBRARY_FILES})
 target_include_directories(lua INTERFACE ${SOURCE_DIR})
 
 if(WIN32)
