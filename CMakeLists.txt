@@ -50,26 +50,26 @@ list(TRANSFORM LIBRARY_FILES PREPEND "${SOURCE_DIR}/")
 add_library(lua ${LIBRARY_FILES})
 target_include_directories(lua INTERFACE ${SOURCE_DIR})
 
-if(WIN32)
-  target_compile_definitions(lua PRIVATE -D_CRT_SECURE_NO_WARNINGS)
-endif()
-
 if(UNIX)
   target_compile_definitions(lua PUBLIC -DLUA_USE_POSIX)
+
   find_library(LIB_MATH NAMES m)
   if(LIB_MATH)
     target_link_libraries(lua ${LIB_MATH})
   endif()
-endif()
 
-if(BUILD_SHARED_LIBS AND WIN32)
-  target_compile_definitions(lua PUBLIC -DLUA_BUILD_AS_DLL)
-endif()
-
-if(UNIX)
   find_library(LIB_DLOPEN NAMES dl)
   if(LIB_DLOPEN)
     target_compile_definitions(lua PUBLIC -DLUA_USE_DLOPEN)
     target_link_libraries(lua ${LIB_DLOPEN})
   endif()
+endif()
+
+if(WIN32)
+  target_compile_definitions(lua PRIVATE -D_CRT_SECURE_NO_WARNINGS)
+endif()
+
+if(WIN32 AND BUILD_SHARED_LIBS)
+  message(STATUS "Building Lua as a shared library")
+  target_compile_definitions(lua PUBLIC -DLUA_BUILD_AS_DLL)
 endif()
