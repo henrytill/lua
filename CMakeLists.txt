@@ -5,10 +5,10 @@ PROJECT(lua VERSION 5.4.4 LANGUAGES C)
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
-set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(LUA_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 # https://www.lua.org/manual/5.4/readme.html "Building Lua on other systems"
-set(LIBRARY_FILES
+set(LUA_LIBRARY_FILES
     # Core
     lapi.c
     lcode.c
@@ -45,10 +45,18 @@ set(LIBRARY_FILES
     # Initialization
     linit.c)
 
-list(TRANSFORM LIBRARY_FILES PREPEND "${SOURCE_DIR}/")
+list(TRANSFORM LUA_LIBRARY_FILES PREPEND "${LUA_SOURCE_DIR}/")
 
-add_library(lua ${LIBRARY_FILES})
-target_include_directories(lua INTERFACE ${SOURCE_DIR})
+option(LUA_BUILD_OBJECTS "Build Lua as an object library" OFF)
+
+if(LUA_BUILD_OBJECTS)
+  message(STATUS "Building Lua as an object library")
+  add_library(lua OBJECT ${LUA_LIBRARY_FILES})
+else()
+  add_library(lua ${LUA_LIBRARY_FILES})
+endif()
+
+target_include_directories(lua INTERFACE ${LUA_SOURCE_DIR})
 
 if(UNIX)
   target_compile_definitions(lua PUBLIC -DLUA_USE_POSIX)
@@ -69,7 +77,7 @@ if(WIN32)
   target_compile_definitions(lua PRIVATE -D_CRT_SECURE_NO_WARNINGS)
 endif()
 
-if(WIN32 AND BUILD_SHARED_LIBS)
+if(WIN32 AND BUILD_SHARED_LIBS AND (NOT LUA_BUILD_OBJECTS))
   message(STATUS "Building Lua as a shared library")
   target_compile_definitions(lua PUBLIC -DLUA_BUILD_AS_DLL)
 endif()
