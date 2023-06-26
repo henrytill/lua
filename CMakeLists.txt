@@ -1,18 +1,16 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.13)
 
-PROJECT(lua VERSION 5.4.4 LANGUAGES C)
+PROJECT(lua VERSION 5.1.1 LANGUAGES C)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
 set(LUA_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-# https://www.lua.org/manual/5.4/readme.html "Building Lua on other systems"
 set(LUA_LIBRARY_FILES
     # Core
     lapi.c
     lcode.c
-    lctype.c
     ldebug.c
     ldo.c
     ldump.c
@@ -30,10 +28,10 @@ set(LUA_LIBRARY_FILES
     lundump.c
     lvm.c
     lzio.c
+    ltests.c
     # Standard libraries
     lauxlib.c
     lbaselib.c
-    lcorolib.c
     ldblib.c
     liolib.c
     lmathlib.c
@@ -41,7 +39,6 @@ set(LUA_LIBRARY_FILES
     loslib.c
     lstrlib.c
     ltablib.c
-    lutf8lib.c
     # Initialization
     linit.c)
 
